@@ -36,35 +36,35 @@
         float: left;
       }
 
-      .celeste {
+      .light_blue {
         background: #22a6b3;
       }
 
-      .celeste.light {
+      .light_blue.light {
         background: #7ed6df;
       }
 
-      .violeta {
+      .violet {
         background: #be2edd;
       }
 
-      .violeta.light {
+      .violet.light {
         background: #e056fd;
       }
 
-      .naranja {
+      .orange {
         background: #f0932b;
       }
 
-      .naranja.light {
+      .orange.light {
         background: #ffbe76;
       }
 
-      .verde {
+      .green {
         background: #6ab04c;
       }
 
-      .verde.light {
+      .green.light {
         background: #badc58;
       }
 
@@ -86,31 +86,121 @@
   </head>
   <body>
     <div class="gameboard">
-      <div id="celeste" class="color celeste left" data-color="celeste"></div>
-      <div id="violeta" class="color violeta right" data-color="violeta"></div>
-      <div id="naranja" class="color naranja left" data-color="naranja"></div>
-      <div id="verde" class="color verde right" data-color="verde"></div>
-      <button id="btnEmpezar" class="btn-start" onclick="empezarJuego()">Empezar a jugar!</button>
+      <div id="light_blue" class="color light_blue left" data-color="light_blue"></div>
+      <div id="violet" class="color violet right" data-color="violet"></div>
+      <div id="orange" class="color orange left" data-color="orange"></div>
+      <div id="green" class="color green right" data-color="green"></div>
+      <button id="btnStart" class="btn-start" onclick="startGame()">Empezar a jugar!</button>
     </div>
     <script>
-      const celeste = document.getElementById('celeste')
-      const violeta = document.getElementById('violeta')
-      const naranja = document.getElementById('naranja')
-      const verde = document.getElementById('verde')
-      const btnEmpezar = document.getElementById('btnEmpezar')
-
-      class Juego {
+      const light_blue = document.getElementById('light_blue')
+      const violet = document.getElementById('violet')
+      const orange = document.getElementById('orange')
+      const green = document.getElementById('green')
+      const btnStart = document.getElementById('btnStart')
+      const LAST_LEVEL = 10;
+      class Game {
         constructor() {
-          this.inicializar()
+          this.init();
+          this.generateSeq();
+          setTimeout(this.nextLevel, 500);
         }
 
-        inicializar() {
-          btnEmpezar.classList.add('hide')
+        init() {
+          this.nextLevel = this.nextLevel.bind(this);
+          this.chooseColor = this.chooseColor.bind(this);
+          btnStart.classList.add('hide');
+        }
+
+        generateSeq(){
+          this.seq = new Array(LAST_LEVEL).fill(0).map(n => Math.floor(Math.random() * 4));
+          this.level = 1;
+          this.colors = { light_blue, violet, orange, green };
+        }
+
+        nextLevel(){
+          this.subLevel = 0;
+          this.showSeq();
+          this.addClickEvent();
+        }
+
+        transformNumberToColor(num){
+          switch(num){
+            case 0:
+              return 'light_blue';
+            case 1:
+              return 'violet';
+            case 2: 
+              return 'orange';
+            case 3:
+              return 'green';
+          }
+        }
+        transformColorToNumber(color){
+          switch(color){
+            case 'light_blue':
+              return 0;
+            case 'violet':
+              return 1;
+            case 'orange': 
+              return 2;
+            case 'green':
+              return 3;
+          }
+        }
+        showSeq(){
+          for(let i = 0; i < this.level; i++){
+            const color = this.transformNumberToColor(this.seq[i]);
+            setTimeout(() =>  this.paintColor(color), 1000 * i);
+          }
+        }
+
+        paintColor(color){
+          this.colors[color].classList.add('light');
+          setTimeout(() => this.clearPaint(color), 350);
+        }
+
+        clearPaint(color){
+          this.colors[color].classList.remove('light');
+        }
+
+        addClickEvent() {
+          this.colors.light_blue.addEventListener('click', this.chooseColor);
+          this.colors.violet.addEventListener('click', this.chooseColor);
+          this.colors.orange.addEventListener('click', this.chooseColor);
+          this.colors.green.addEventListener('click', this.chooseColor);
+        }
+
+        removeClickEvents() {
+          this.colors.light_blue.removeEventListener('click', this.chooseColor);
+          this.colors.violet.removeEventListener('click', this.chooseColor);
+          this.colors.orange.removeEventListener('click', this.chooseColor);
+          this.colors.green.removeEventListener('click', this.chooseColor);
+        }
+
+        chooseColor(ev){
+          const colorName = ev.target.dataset.color;
+          const colorNumber = this.transformColorToNumber(colorName);
+          this.paintColor(colorName);
+          if(colorNumber === this.seq[this.subLevel]){
+            this.subLevel++;
+            if(this.subLevel === this.level){
+              this.level++;
+              this.removeClickEvents();
+              if(this.level === (LAST_LEVEL + 1)){
+                // Win the game
+              }else{
+                setTimeout(this.nextLevel(), 1500);
+              }
+            }
+          }else{
+            // Loose the game
+          }
         }
       }
 
-      function empezarJuego() {
-        var juego = new Juego()
+      function startGame() {
+        window.game = new Game()
       }
     </script>
   </body>
