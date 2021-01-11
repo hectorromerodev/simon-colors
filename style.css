@@ -29,37 +29,37 @@ body {
 .right {
   float: left;
 }
-
+ 
 .light_blue {
-  background: #22a6b3;
+  background: #2255b3;
 }
 
 .light_blue.light {
-  background: #7ed6df;
+  background: #7e98df;
 }
 
 .violet {
-  background: #be2edd;
+  background: #dd2e2e;
 }
 
 .violet.light {
-  background: #e056fd;
+  background: #fd5656;
 }
 
 .orange {
-  background: #f0932b;
+  background: #f0c22b;
 }
 
 .orange.light {
-  background: #ffbe76;
+  background: #fff676;
 }
 
 .green {
-  background: #6ab04c;
+  background: #22b322;
 }
 
 .green.light {
-  background: #badc58;
+  background: #7edfb2;
 }
 
 .btn-start {
