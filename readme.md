@@ -2,7 +2,7 @@
 ## Create a simon says game with vanillaJs.
 
 # What I learned
-### I learn to use pure vanillaJs to do an interactive app, I use events emitters, arrays, and the mythical .bind(this) to retain this on determinated parts of the app.
+### I learn to use pure vanillaJs to do an interactive app, I learned to add a cdn plug-in to the project and use it, I use events emitters, arrays, and the mythical .bind(this) to retain this on determinated parts of the app.
 ### Also I learned how to use Github pages to host static web pages.
 
 # How it looks
@@ -15,6 +15,7 @@ Seconds | sd | as
 + [Vanilla Javascript](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 + [CSS](https://www.w3schools.com/css/default.asp)
 + [Github pages](https://pages.github.com/)
++ [sweetalert2](https://sweetalert2.github.io/#download)
 
 # Tools
 + [VS Code](https://code.visualstudio.com/)
