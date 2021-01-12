@@ -3,19 +3,29 @@ const violet = document.getElementById('violet');
 const orange = document.getElementById('orange');
 const green = document.getElementById('green');
 const btnStart = document.getElementById('btnStart');
-const LAST_LEVEL = 10;
+const LAST_LEVEL = 1;
 
-class Game {
+class Game {  
   constructor() {
+    this.init = this.init.bind(this);
     this.init();
     this.generateSeq();
     setTimeout(this.nextLevel, 500);
-  }
+    this.nextLevel = this.nextLevel.bind(this);
+  } 
 
   init() {
     this.nextLevel = this.nextLevel.bind(this);
     this.chooseColor = this.chooseColor.bind(this);
-    btnStart.classList.add('hide');
+    this.toggleBtnStart();
+  }
+  
+  toggleBtnStart() {
+    if (btnStart.classList.contains('hide')) {
+      btnStart.classList.remove('hide');
+    } else {
+      btnStart.classList.add('hide');
+    }
   }
 
   generateSeq(){
@@ -92,18 +102,37 @@ class Game {
     this.paintColor(colorName);
     if(colorNumber === this.seq[this.subLevel]){
       this.subLevel++;
+
       if(this.subLevel === this.level){
         this.level++;
         this.removeClickEvents();
+
         if(this.level === (LAST_LEVEL + 1)){
           // Win the game
+          this.winner();
         }else{
           setTimeout(this.nextLevel, 1500);
         }
+
       }
     }else{
       // Loose the game
+      this.loser();
     }
+  } 
+
+  winner() {
+    swal('Simon Says', 'Congratulations, you win the game! 🔥', 'success')
+      .then(this.init);
+  }
+
+  loser() {
+    swal('Simon Says', 'I am, sorry you lose the game 😭, try again', 'error')
+      .then(() => {
+        this.removeClickEvents();
+        this.init();
+      }
+    );
   }
 }
 
